@@ -10,6 +10,28 @@ import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca3921
 import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/paraphase.wdl" as Paraphase
 import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/mitorsaw.wdl" as Mitorsaw
 
+task create_empty_discover_tar {
+  input {
+    String sample_id
+    RuntimeAttributes runtime_attributes
+  }
+
+  command <<<
+    tar -czf "~{sample_id}.empty.tar" -T /dev/null
+  >>>
+
+  output {
+    File discover_tar = "~{sample_id}.empty.tar"
+  }
+
+  runtime {
+    docker: runtime_attributes.container_registry + "/base:v1.1.0"
+    cpu: 1
+    memory: "1 GB"
+    disk: "10 GB"
+  }
+}
+
 workflow upstream {
   meta {
     description: "Given a set of HiFi reads for a human sample, run steps upstream of phasing."
@@ -206,6 +228,14 @@ workflow upstream {
     }
   }
 
+  if (!run_sawfish) {
+    call create_empty_discover_tar {
+      input:
+        sample_id           = sample_id,
+        runtime_attributes  = default_runtime_attributes
+    }
+  }
+
   call Paraphase.paraphase {
     input:
       aligned_bam        = aligned_bam_data,
@@ -301,7 +331,7 @@ workflow upstream {
     String stat_depth_mean                  = mosdepth.stat_depth_mean
 
     # per sample sv signatures
-    File? discover_tar = sawfish_discover.discover_tar
+    File discover_tar = select_first([sawfish_discover.discover_tar, create_empty_discover_tar.discover_tar])
 
     # sawfish outputs for single sample
     File? sv_vcf                        = sawfish_call.vcf
