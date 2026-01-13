@@ -1,14 +1,14 @@
 version 1.0
 
-import "../wdl-common/wdl/structs.wdl"
-import "../wdl-common/wdl/workflows/pbmm2/pbmm2.wdl" as Pbmm2
-import "../wdl-common/wdl/tasks/sawfish.wdl" as Sawfish
-import "../wdl-common/wdl/workflows/deepvariant/deepvariant.wdl" as DeepVariant
-import "../wdl-common/wdl/tasks/samtools.wdl" as Samtools
-import "../wdl-common/wdl/tasks/mosdepth.wdl" as Mosdepth
-import "../wdl-common/wdl/tasks/trgt.wdl" as Trgt
-import "../wdl-common/wdl/tasks/paraphase.wdl" as Paraphase
-import "../wdl-common/wdl/tasks/mitorsaw.wdl" as Mitorsaw
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/structs.wdl"
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/workflows/pbmm2/pbmm2.wdl" as Pbmm2
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/sawfish.wdl" as Sawfish
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/workflows/deepvariant/deepvariant.wdl" as DeepVariant
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/samtools.wdl" as Samtools
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/mosdepth.wdl" as Mosdepth
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/trgt.wdl" as Trgt
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/paraphase.wdl" as Paraphase
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/mitorsaw.wdl" as Mitorsaw
 
 workflow upstream {
   meta {
