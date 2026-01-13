@@ -1,14 +1,14 @@
 version 1.0
 
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/structs.wdl"
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/workflows/pbmm2/pbmm2.wdl" as Pbmm2
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/sawfish.wdl" as Sawfish
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/workflows/deepvariant/deepvariant.wdl" as DeepVariant
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/samtools.wdl" as Samtools
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/mosdepth.wdl" as Mosdepth
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/trgt.wdl" as Trgt
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/paraphase.wdl" as Paraphase
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/refs/heads/main/wdl/tasks/mitorsaw.wdl" as Mitorsaw
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/structs.wdl"
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/workflows/pbmm2/pbmm2.wdl" as Pbmm2
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/sawfish.wdl" as Sawfish
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/workflows/deepvariant/deepvariant.wdl" as DeepVariant
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/samtools.wdl" as Samtools
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/mosdepth.wdl" as Mosdepth
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/trgt.wdl" as Trgt
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/paraphase.wdl" as Paraphase
+import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/mitorsaw.wdl" as Mitorsaw
 
 workflow upstream {
   meta {
