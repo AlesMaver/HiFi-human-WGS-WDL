@@ -25,7 +25,7 @@ task create_empty_discover_tar {
   }
 
   runtime {
-    docker: runtime_attributes.container_registry + "/base:v1.1.0"
+    docker: "ubuntu:20.04"
     cpu: 1
     memory: "1 GB"
     disk: "10 GB"
