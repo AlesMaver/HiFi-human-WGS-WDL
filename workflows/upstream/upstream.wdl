@@ -56,6 +56,9 @@ workflow upstream {
     default_runtime_attributes: {
       name: "Runtime attribute structure"
     }
+    regions_bed: {
+      name: "Optional BED file for testing; restricts analysis to specified regions"
+    }
   }
 
   input {
@@ -78,6 +81,8 @@ workflow upstream {
     Boolean gpu
 
     RuntimeAttributes default_runtime_attributes
+
+    File? regions_bed
   }
 
   Map[String, String] ref_map = read_map(ref_map_file)
@@ -172,6 +177,7 @@ workflow upstream {
       ref_index                  = ref_map["fasta_index"], # !FileCoercion
       ref_name                   = ref_map["name"],
       gpu                        = gpu,
+      regions_bed                = regions_bed,
       default_runtime_attributes = default_runtime_attributes
   }
 
