@@ -59,6 +59,9 @@ workflow upstream {
     regions_bed: {
       name: "Optional BED file for testing; restricts analysis to specified regions"
     }
+    run_sawfish: {
+      name: "Run Sawfish for structural variant discovery and calling"
+    }
   }
 
   input {
@@ -83,6 +86,8 @@ workflow upstream {
     RuntimeAttributes default_runtime_attributes
 
     File? regions_bed
+
+    Boolean run_sawfish = true
   }
 
   Map[String, String] ref_map = read_map(ref_map_file)
@@ -181,22 +186,24 @@ workflow upstream {
       default_runtime_attributes = default_runtime_attributes
   }
 
-  call Sawfish.sawfish_discover {
-    input:
-      sample_id               = sample_id,
-      sex                     = mosdepth.inferred_sex,
-      aligned_bam             = aligned_bam_data,
-      aligned_bam_index       = aligned_bam_index,
-      ref_fasta               = ref_map["fasta"],                       # !FileCoercion
-      ref_index               = ref_map["fasta_index"],                 # !FileCoercion
-      exclude_bed             = ref_map["sawfish_exclude_bed"],         # !FileCoercion
-      exclude_bed_index       = ref_map["sawfish_exclude_bed_index"],   # !FileCoercion
-      expected_male_bed       = ref_map["sawfish_expected_bed_male"],   # !FileCoercion
-      expected_female_bed     = ref_map["sawfish_expected_bed_female"], # !FileCoercion
-      small_variant_vcf       = deepvariant.vcf,
-      small_variant_vcf_index = deepvariant.vcf_index,
-      out_prefix              = "~{sample_id}",
-      runtime_attributes      = default_runtime_attributes
+  if (run_sawfish) {
+    call Sawfish.sawfish_discover {
+      input:
+        sample_id               = sample_id,
+        sex                     = mosdepth.inferred_sex,
+        aligned_bam             = aligned_bam_data,
+        aligned_bam_index       = aligned_bam_index,
+        ref_fasta               = ref_map["fasta"],                       # !FileCoercion
+        ref_index               = ref_map["fasta_index"],                 # !FileCoercion
+        exclude_bed             = ref_map["sawfish_exclude_bed"],         # !FileCoercion
+        exclude_bed_index       = ref_map["sawfish_exclude_bed_index"],   # !FileCoercion
+        expected_male_bed       = ref_map["sawfish_expected_bed_male"],   # !FileCoercion
+        expected_female_bed     = ref_map["sawfish_expected_bed_female"], # !FileCoercion
+        small_variant_vcf       = deepvariant.vcf,
+        small_variant_vcf_index = deepvariant.vcf_index,
+        out_prefix              = "~{sample_id}",
+        runtime_attributes      = default_runtime_attributes
+    }
   }
 
   call Paraphase.paraphase {
@@ -248,7 +255,7 @@ workflow upstream {
       runtime_attributes = default_runtime_attributes
   }
 
-  if (single_sample) {
+  if (single_sample && run_sawfish) {
     String copynum_bedgraph_name           = "~{sample_id}.~{ref_map['name']}.structural_variants.copynum.bedgraph"
     String depth_bw_name                   = "~{sample_id}.~{ref_map['name']}.structural_variants.depth.bw"
     String gc_bias_corrected_depth_bw_name = "~{sample_id}.~{ref_map['name']}.structural_variants.gc_bias_corrected_depth.bw"
@@ -259,7 +266,7 @@ workflow upstream {
     call Sawfish.sawfish_call {
       input:
         sample_ids                       = [sample_id],
-        discover_tars                    = [sawfish_discover.discover_tar],
+        discover_tars                    = [select_first([sawfish_discover.discover_tar])],
         aligned_bams                     = [aligned_bam_data],
         aligned_bam_indices              = [aligned_bam_index],
         ref_fasta                        = ref_map["fasta"],                                      # !FileCoercion
@@ -294,7 +301,7 @@ workflow upstream {
     String stat_depth_mean                  = mosdepth.stat_depth_mean
 
     # per sample sv signatures
-    File discover_tar = sawfish_discover.discover_tar
+    File? discover_tar = sawfish_discover.discover_tar
 
     # sawfish outputs for single sample
     File? sv_vcf                        = sawfish_call.vcf
@@ -338,7 +345,7 @@ workflow upstream {
         [qc_sex],
         [include_fail_reads],
         trgt.msg,
-        sawfish_discover.msg
+        select_all([sawfish_discover.msg])
       ]
     )
   }
