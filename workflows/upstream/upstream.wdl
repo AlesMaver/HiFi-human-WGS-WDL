@@ -375,7 +375,7 @@ workflow upstream {
         [qc_sex],
         [include_fail_reads],
         trgt.msg,
-        select_all([sawfish_discover.msg])
+        flatten(select_all([sawfish_discover.msg]))
       ]
     )
   }
