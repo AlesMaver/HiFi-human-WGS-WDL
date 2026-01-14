@@ -68,6 +68,9 @@ workflow humanwgs_singleton {
     debug_version: {
       name: "Debug version for testing purposes"
     }
+    regions_bed: {
+      name: "Optional BED file for testing; restricts analysis to specified regions"
+    }
   }
 
   input {
@@ -96,6 +99,8 @@ workflow humanwgs_singleton {
     Boolean preemptible = true
 
     String? debug_version
+
+    File? regions_bed
   }
 
   call BackendConfiguration.backend_configuration {
@@ -133,6 +138,7 @@ workflow humanwgs_singleton {
       fail_reads_bait_index         = process_trgt_catalog.fail_reads_bait_index,
       single_sample                 = true,
       gpu                           = gpu,
+        regions_bed                   = regions_bed,
       default_runtime_attributes    = default_runtime_attributes
   }
 
