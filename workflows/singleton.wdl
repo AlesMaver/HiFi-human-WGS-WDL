@@ -234,7 +234,26 @@ workflow humanwgs_singleton {
       runtime_attributes = default_runtime_attributes
   }
 
+  # ========================================
+  # Convert BAM to CRAM (Optional)
+  # ========================================
+  if (convert_to_cram) {
+    call CramConversions.ConvertToCram as ConvertToCram {
+      input:
+        input_bam       = upstream.out_bam,
+        ref_fasta       = ref_map["fasta"],
+        ref_fasta_index = ref_map["fasta_index"],
+        sample_basename = sample_id
+    }
+  }
+
   output {
+    # Alignment Outputs
+    File out_bam                = upstream.out_bam
+    File out_bam_index          = upstream.out_bam_index
+    File? out_cram              = ConvertToCram.output_cram
+    File? out_cram_index        = ConvertToCram.output_cram_index
+
     # consolidated stats
     File stats_file = consolidate_stats.output_tsv
     File msg_file   = consolidate_stats.messages
