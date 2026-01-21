@@ -235,6 +235,10 @@ workflow humanwgs_singleton {
   }
 
   output {
+    # alignments
+    File aligned_bam       = upstream.out_bam
+    File aligned_bam_index = upstream.out_bam_index
+
     # consolidated stats
     File stats_file = consolidate_stats.output_tsv
     File msg_file   = consolidate_stats.messages
