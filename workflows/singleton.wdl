@@ -102,7 +102,6 @@ workflow humanwgs_singleton {
 
     File? regions_bed
 
-    Boolean convert_to_cram = true
   }
 
   call BackendConfiguration.backend_configuration {
@@ -239,6 +238,7 @@ workflow humanwgs_singleton {
   # ========================================
   # Convert BAM to CRAM (Optional)
   # ========================================
+  Boolean convert_to_cram = true
   if (convert_to_cram) {
     call CramConversions.ConvertToCram as ConvertToCram {
       input:
