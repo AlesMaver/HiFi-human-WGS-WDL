@@ -101,6 +101,8 @@ workflow humanwgs_singleton {
     String? debug_version
 
     File? regions_bed
+
+    Boolean convert_to_cram = true
   }
 
   call BackendConfiguration.backend_configuration {
