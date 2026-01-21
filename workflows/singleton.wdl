@@ -7,6 +7,7 @@ import "upstream/upstream.wdl" as Upstream
 import "downstream/downstream.wdl" as Downstream
 import "tertiary/tertiary.wdl" as TertiaryAnalysis
 import "wdl-common/wdl/tasks/utilities.wdl" as Utilities
+import "https://raw.githubusercontent.com/AlesMaver/CMGpipeline/refs/heads/PacBio_testing_ales/CRAM_conversions.wdl" as CramConversions
 
 workflow humanwgs_singleton {
   meta {
