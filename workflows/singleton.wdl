@@ -246,7 +246,8 @@ workflow humanwgs_singleton {
         input_bam       = upstream.out_bam,
         ref_fasta       = ref_map["fasta"],
         ref_fasta_index = ref_map["fasta_index"],
-        sample_basename = sample_id
+        sample_basename = sample_id,
+        genome_assembly = ref_map["name"]
     }
   }
 
