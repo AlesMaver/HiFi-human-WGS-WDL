@@ -279,9 +279,9 @@ workflow humanwgs_singleton {
     String stat_gap_compressed_identity_mean   = downstream.stat_gap_compressed_identity_mean
     String stat_gap_compressed_identity_median = downstream.stat_gap_compressed_identity_median
 
-    # merged, haplotagged alignments  -- no used for the time being (2026-02-02)
-    # File   merged_haplotagged_bam       = downstream.merged_haplotagged_bam
-    # File   merged_haplotagged_bam_index = downstream.merged_haplotagged_bam_index
+    # merged, haplotagged alignments
+    File   merged_haplotagged_bam       = downstream.merged_haplotagged_bam
+    File   merged_haplotagged_bam_index = downstream.merged_haplotagged_bam_index
 
     # mosdepth outputs
     File   mosdepth_summary                 = upstream.mosdepth_summary
