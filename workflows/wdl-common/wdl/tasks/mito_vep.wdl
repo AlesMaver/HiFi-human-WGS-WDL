@@ -8,7 +8,7 @@ workflow MitoVEP {
     File gnomad_mito_sites_vcf
     File gnomad_mito_sites_vcf_index
     String assembly = "GRCh38"
-    Int fork = 48
+    Int fork = 20
     String output_filename = sample_basename + "." + assembly + ".mitorsaw.VEP.vcf.gz"
     String output_filename_most_severe = sample_basename + "." + assembly + ".mitorsaw.VEP.mostSevere.vcf.gz"
     String docker = "alesmaver/vep"
