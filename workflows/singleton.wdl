@@ -7,6 +7,7 @@ import "upstream/upstream.wdl" as Upstream
 import "downstream/downstream.wdl" as Downstream
 import "tertiary/tertiary.wdl" as TertiaryAnalysis
 import "wdl-common/wdl/tasks/utilities.wdl" as Utilities
+import "wdl-common/wdl/tasks/mito_vep.wdl" as MitoVEP
 
 workflow humanwgs_singleton {
   meta {
@@ -71,6 +72,12 @@ workflow humanwgs_singleton {
     regions_bed: {
       name: "Optional BED file for testing; restricts analysis to specified regions"
     }
+    mito_vep_gnomad_mito_sites_vcf: {
+      name: "Optional gnomAD mitochondrial sites VCF for MitoVEP annotation"
+    }
+    mito_vep_gnomad_mito_sites_vcf_index: {
+      name: "Optional index for gnomAD mitochondrial sites VCF for MitoVEP annotation"
+    }
   }
 
   input {
@@ -101,6 +108,9 @@ workflow humanwgs_singleton {
     String? debug_version
 
     File? regions_bed
+
+    File? mito_vep_gnomad_mito_sites_vcf
+    File? mito_vep_gnomad_mito_sites_vcf_index
   }
 
   call BackendConfiguration.backend_configuration {
@@ -157,6 +167,17 @@ workflow humanwgs_singleton {
       pharmcat_min_coverage      = pharmcat_min_coverage,
       ref_map_file               = ref_map_file,
       default_runtime_attributes = default_runtime_attributes
+  }
+
+  if (defined(mito_vep_gnomad_mito_sites_vcf) && defined(mito_vep_gnomad_mito_sites_vcf_index)) {
+    call MitoVEP.MitoVEP as mito_vep {
+      input:
+        sample_basename             = sample_id,
+        input_vcf                   = upstream.mitorsaw_vcf,
+        reference_fasta             = ref_map["fasta"],  # !FileCoercion
+        gnomad_mito_sites_vcf       = select_first([mito_vep_gnomad_mito_sites_vcf]),
+        gnomad_mito_sites_vcf_index = select_first([mito_vep_gnomad_mito_sites_vcf_index])
+    }
   }
 
   Map[String, String] pedigree_sex = {
@@ -347,6 +368,12 @@ workflow humanwgs_singleton {
     File mitorsaw_vcf       = upstream.mitorsaw_vcf
     File mitorsaw_vcf_index = upstream.mitorsaw_vcf_index
     File mitorsaw_hap_stats = upstream.mitorsaw_hap_stats
+
+    # per sample mito_vep outputs
+    File? mitorsaw_vep_vcf                    = mito_vep.output_vcf
+    File? mitorsaw_vep_vcf_index              = mito_vep.output_vcf_index
+    File? mitorsaw_vep_most_severe_vcf        = mito_vep.output_vcf_most_severe
+    File? mitorsaw_vep_most_severe_vcf_index  = mito_vep.output_vcf_most_severe_index
 
     # PGx outputs
     File  pbstarphase_json        = downstream.pbstarphase_json

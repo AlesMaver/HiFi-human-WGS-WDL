@@ -85,7 +85,7 @@ task sawfish_discover {
 
   File expected_bed = if select_first([sex, "FEMALE"]) == "MALE" then expected_male_bed else expected_female_bed
 
-  Int threads   = 16
+  Int threads   = 8
   Int mem_gb    = threads * 8
   Int disk_size = ceil(size(aligned_bam, "GB") * 2 + size(ref_fasta, "GB") + 20)
 

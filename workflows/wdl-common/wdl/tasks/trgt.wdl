@@ -85,8 +85,8 @@ task trgt {
     RuntimeAttributes runtime_attributes
   }
 
-  Int threads   = 32
-  Int mem_gb    = 64
+  Int threads   = 16
+  Int mem_gb    = 32
   Int disk_size = ceil((size(aligned_bam, "GB") + size(ref_fasta, "GB")) * 2 + 20)
 
   Int samtools_sort_threads = 8
