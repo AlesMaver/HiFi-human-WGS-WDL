@@ -154,8 +154,7 @@ workflow humanwgs_singleton {
       default_runtime_attributes    = default_runtime_attributes
   }
 
-
-  call kivvi.kivvi {
+  call Kivvi.kivvi {
     input:
       sample_id         = sample_id,
       wgs_bam           = upstream.out_bam,
