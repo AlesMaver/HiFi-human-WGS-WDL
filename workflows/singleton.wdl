@@ -153,6 +153,18 @@ workflow humanwgs_singleton {
       default_runtime_attributes    = default_runtime_attributes
   }
 
+
+  call kivvi {
+    input:
+      sample_id         = sample_id,
+      wgs_bam           = upstream.out_bam,
+      wgs_bam_index     = upstream.out_bam_index,
+      genome_fasta      = ref_map["fasta"],
+      genome_fasta_index= ref_map["fasta_index"],
+      output_prefix     = sample_id,
+      runtime_attributes= default_runtime_attributes
+  }
+
   call Downstream.downstream {
     input:
       sample_id                  = sample_id,
@@ -379,6 +391,13 @@ workflow humanwgs_singleton {
     File   trgt_coverage_dropouts    = downstream.trgt_coverage_dropouts
     String stat_trgt_genotyped_count = upstream.stat_trgt_genotyped_count
     String stat_trgt_uncalled_count  = upstream.stat_trgt_uncalled_count
+
+
+    # kivvi outputs
+    File kivvi_json = kivvi.kivvi_json
+    File kivvi_bam  = kivvi.kivvi_bam
+    File kivvi_vcf  = kivvi.kivvi_vcf
+    File? kivvi_svg = kivvi.kivvi_svg
 
     # paraphase outputs
     File? paraphase_output_json         = upstream.paraphase_output_json
