@@ -7,7 +7,7 @@ import "upstream/upstream.wdl" as Upstream
 import "downstream/downstream.wdl" as Downstream
 import "tertiary/tertiary.wdl" as TertiaryAnalysis
 import "wdl-common/wdl/tasks/utilities.wdl" as Utilities
-import "wdl-common/wdl/tasks/kivvi.wdl"
+import "wdl-common/wdl/tasks/kivvi.wdl" as Kivvi
 import "wdl-common/wdl/tasks/mito_vep.wdl" as MitoVEP
 import "https://raw.githubusercontent.com/AlesMaver/CMGpipeline/refs/heads/PacBio_testing_ales/CRAM_conversions.wdl" as CramConversions
 
@@ -155,7 +155,7 @@ workflow humanwgs_singleton {
   }
 
 
-  call kivvi {
+  call kivvi.kivvi {
     input:
       sample_id         = sample_id,
       wgs_bam           = upstream.out_bam,
