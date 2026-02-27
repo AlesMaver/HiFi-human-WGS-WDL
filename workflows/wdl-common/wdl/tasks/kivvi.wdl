@@ -60,10 +60,10 @@ task kivvi {
 	>>>
 
 	output {
-		File kivvi_json = "~{output_prefix}.kivvi.kiv2.json"
-		File kivvi_bam  = "~{output_prefix}.kivvi.kiv2.bam"
-		File kivvi_vcf  = "~{output_prefix}.kivvi.kiv2.vcf"
-		File? kivvi_svg = "~{output_prefix}.kivvi.kiv2.svg"
+		File kivvi_json = "kivvi_out/~{output_prefix}.kivvi.kiv2.json"
+		File kivvi_bam  = "kivvi_out/~{output_prefix}.kivvi.kiv2.bam"
+		File kivvi_vcf  = "kivvi_out/~{output_prefix}.kivvi.kiv2.vcf"
+		File? kivvi_svg = "kivvi_out/~{output_prefix}.kivvi.kiv2.svg"
 	}
 
 	runtime {
