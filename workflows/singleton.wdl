@@ -283,6 +283,22 @@ workflow humanwgs_singleton {
     }
   }
 
+  # ========================================
+  # Convert BAM to CRAM (Optional)
+  #
+  # hiphase downstream.merged_haplotagged_bam
+  # ========================================
+  Boolean convert_to_cram_hiphase = true
+  if (convert_to_cram_hiphase) {
+    call CramConversions.ConvertToCram as ConvertToCramHiphase {
+      input:
+        input_bam       = downstream.merged_haplotagged_bam,
+        ref_fasta       = ref_map["fasta"],
+        ref_fasta_index = ref_map["fasta_index"],
+        sample_basename = sample_id,
+        genome_assembly = ref_map["name"] + ".hiphase"
+    }
+  }
   output {
     # Alignment Outputs
     # File out_bam                = upstream.out_bam
@@ -314,6 +330,8 @@ workflow humanwgs_singleton {
     # merged, haplotagged alignments
     File   merged_haplotagged_bam       = downstream.merged_haplotagged_bam
     File   merged_haplotagged_bam_index = downstream.merged_haplotagged_bam_index
+    File?  hiphase_out_cram              = ConvertToCramHiphase.output_cram
+    File?  hiphase_out_cram_index        = ConvertToCramHiphase.output_cram_index
 
     # mosdepth outputs
     File   mosdepth_summary                 = upstream.mosdepth_summary
