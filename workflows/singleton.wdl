@@ -286,7 +286,7 @@ workflow humanwgs_singleton {
   # ========================================
   # Convert BAM to CRAM (Optional)
   #
-  # hiphase downstream.merged_haplotagged_bam
+  # downstream.merged_haplotagged_bam
   # ========================================
   Boolean convert_to_cram_hiphase = true
   if (convert_to_cram_hiphase) {
@@ -296,7 +296,7 @@ workflow humanwgs_singleton {
         ref_fasta       = ref_map["fasta"],
         ref_fasta_index = ref_map["fasta_index"],
         sample_basename = sample_id,
-        genome_assembly = ref_map["name"] + ".hiphase"
+        genome_assembly = ref_map["name"] + ".haplotagged"
     }
   }
   output {
