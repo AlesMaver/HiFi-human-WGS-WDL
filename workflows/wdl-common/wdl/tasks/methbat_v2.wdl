@@ -1,5 +1,8 @@
 version 1.0
 
+# methbat report added to the almost equal code for methbat profile.
+# docker image changed for the newer version
+
 import "../structs.wdl"
 
 task methbat {
@@ -35,15 +38,19 @@ task methbat {
     stat_methbat_asm_count: {
       name: "Count of allele-specific methylation regions"
     }
+    report: {
+      name: "Methylation analyze pre-defined regions with known expected methylation patterns, such as imprinting regions..."
+    }
+    report_regions: {
+      name: "Imprinting regions, which are expected to have one allele methylated and the other unmethylated in healthy samples..."
+    }
   }
 
   input {
     String sample_prefix
-
     Array[File] methylation_pileup_beds
-
     File region_tsv
-
+    File report_regions
     String out_prefix
 
     RuntimeAttributes runtime_attributes
@@ -74,17 +81,24 @@ task methbat {
     | wc -l > unmethylated_count.txt
     awk '$5=="AlleleSpecificMethylation" {print}' ~{out_prefix}.methbat.profile.tsv \
     | wc -l > asm_count.txt
+
+    methbat report \
+      --input-prefix ~{sample_prefix} \
+      --input-regions ~{report_regions} \
+      --output-region-profile ~{out_prefix}.methbat.report.tsv
+
   >>>
 
   output {
     File   profile                         = "~{out_prefix}.methbat.profile.tsv"
+    File   report                         = "~{out_prefix}.methbat.report.tsv"
     String stat_methbat_methylated_count   = read_string("methylated_count.txt")
     String stat_methbat_unmethylated_count = read_string("unmethylated_count.txt")
     String stat_methbat_asm_count          = read_string("asm_count.txt")
   }
 
   runtime {
-    docker: "~{runtime_attributes.container_registry}/methbat@sha256:54a74389cf8ac485e8f34522d48e05880c01245e9aaf4dec6a6eddf25ee2c550"
+    docker: "~{runtime_attributes.container_registry}/methbat@sha256:c4a84004c7923b2212a7a06f5497aad95bd0328a991350cbbf866fb79d8a2a3b"
     cpu: threads
     memory: mem_gb + " GiB"
     disk: disk_size + " GB"
