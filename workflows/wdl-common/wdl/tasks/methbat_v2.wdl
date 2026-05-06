@@ -85,7 +85,7 @@ task methbat {
     methbat report \
       --input-prefix ~{sample_prefix} \
       --input-regions ~{report_regions} \
-      --output-region-profile ~{out_prefix}.methbat.report.tsv
+      --output-report ~{out_prefix}.methbat.report.tsv
 
   >>>
 
