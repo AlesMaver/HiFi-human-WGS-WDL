@@ -362,6 +362,7 @@ workflow humanwgs_singleton {
     String  stat_cpg_hap2_count             = downstream.stat_hap2_cpg_count
     String  stat_cpg_combined_count         = downstream.stat_combined_cpg_count
     File?   methbat_profile                 = downstream.methbat_profile
+    File?   methbat_report                  = downstream.methbat_report
     String stat_methbat_methylated_count   = downstream.stat_methbat_methylated_count
     String stat_methbat_unmethylated_count = downstream.stat_methbat_unmethylated_count
     String stat_methbat_asm_count          = downstream.stat_methbat_asm_count
