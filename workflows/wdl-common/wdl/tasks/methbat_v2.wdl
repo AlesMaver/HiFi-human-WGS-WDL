@@ -99,7 +99,7 @@ task methbat {
 
   runtime {
     docker: "~{runtime_attributes.container_registry}/methbat@sha256:c4a84004c7923b2212a7a06f5497aad95bd0328a991350cbbf866fb79d8a2a3b"
-    cpu: threads
+    #cpu: threads
     #memory: mem_gb + " GiB"
     #disk: disk_size + " GB"
     #disks: "local-disk " + disk_size + " HDD"
@@ -108,6 +108,7 @@ task methbat {
     #awsBatchRetryAttempts: runtime_attributes.max_retries  # !UnknownRuntimeKey
     #zones: runtime_attributes.zones
     #cpuPlatform: runtime_attributes.cpuPlatform
+    cpu: 8
     requested_memory_mb_per_core: 1000
     runtime_minutes: 30
   }
