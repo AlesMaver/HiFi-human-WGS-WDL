@@ -267,6 +267,7 @@ workflow downstream {
     String stat_hap2_cpg_count             = cpg_pileup.stat_hap2_cpg_count
     String stat_combined_cpg_count         = cpg_pileup.stat_combined_cpg_count
     File?  methbat_profile                 = methbat.profile
+    File?  methbat_report                  = methbat.report
     String stat_methbat_methylated_count   = select_first([methbat.stat_methbat_methylated_count, "0"])
     String stat_methbat_unmethylated_count = select_first([methbat.stat_methbat_unmethylated_count, "0"])
     String stat_methbat_asm_count          = select_first([methbat.stat_methbat_asm_count, "0"])
