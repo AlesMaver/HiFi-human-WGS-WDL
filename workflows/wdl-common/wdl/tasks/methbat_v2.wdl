@@ -64,7 +64,7 @@ task methbat {
     set -euo pipefail
 
     for i in ~{sep=' ' methylation_pileup_beds}; do
-      ln --symbolic $i .
+      ln -s $i .
     done
 
     methbat --version
