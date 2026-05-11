@@ -328,8 +328,8 @@ workflow humanwgs_singleton {
     String stat_gap_compressed_identity_median = downstream.stat_gap_compressed_identity_median
 
     # merged, haplotagged alignments
-    File   merged_haplotagged_bam       = downstream.merged_haplotagged_bam
-    File   merged_haplotagged_bam_index = downstream.merged_haplotagged_bam_index
+    #File   merged_haplotagged_bam       = downstream.merged_haplotagged_bam
+    #File   merged_haplotagged_bam_index = downstream.merged_haplotagged_bam_index
     File?  hiphase_out_cram              = ConvertToCramHiphase.output_cram
     File?  hiphase_out_cram_index        = ConvertToCramHiphase.output_cram_index
 
