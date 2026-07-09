@@ -84,7 +84,7 @@ task kivvi {
 	}
 
 	runtime {
-		docker: "weisburd/kivvi"
+		docker: "alesmaver/kivvi:v1.0.0"
 		cpu: 1
 		memory: "4 GiB"
 		disk: "20 GB"
