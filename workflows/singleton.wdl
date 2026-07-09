@@ -417,6 +417,10 @@ workflow humanwgs_singleton {
     File kivvi_bam  = kivvi.kivvi_bam
     File kivvi_vcf  = kivvi.kivvi_vcf
     File? kivvi_svg = kivvi.kivvi_svg
+    File d4z4_json = kivvi.d4z4_json
+    File d4z4_bam  = kivvi.d4z4_bam
+    File d4z4_vcf  = kivvi.d4z4_vcf
+    File? d4z4_svg = kivvi.d4z4_svg
 
     # paraphase outputs
     File? paraphase_output_json         = upstream.paraphase_output_json

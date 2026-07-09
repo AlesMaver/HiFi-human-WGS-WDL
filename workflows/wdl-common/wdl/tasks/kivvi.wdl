@@ -4,7 +4,7 @@ import "../structs.wdl"
 
 task kivvi {
 	meta {
-		description: "Run Kivvi to analyze KIV2 region from a genome-aligned BAM."
+		description: "Run Kivvi to analyze KIV2 and D4Z4 regions from a genome-aligned BAM."
 	}
 
 	parameter_meta {
@@ -41,6 +41,18 @@ task kivvi {
 		kivvi_svg: {
 			name: "Kivvi SVG output"
 		}
+		d4z4_json: {
+			name: "D4Z4 JSON output"
+		}
+		d4z4_bam: {
+			name: "D4Z4 BAM output"
+		}
+		d4z4_vcf: {
+			name: "D4Z4 VCF output"
+		}
+		d4z4_svg: {
+			name: "D4Z4 SVG output"
+		}
 	}
 
 	input {
@@ -57,6 +69,7 @@ task kivvi {
 		set -euo pipefail
 		mkdir -p kivvi_out
 		kivvi -b ~{wgs_bam} -o kivvi_out -p ~{output_prefix} -r ~{genome_fasta} kiv2
+		kivvi -b ~{wgs_bam} -o kivvi_out -p ~{output_prefix} -r ~{genome_fasta} d4z4
 	>>>
 
 	output {
@@ -64,6 +77,10 @@ task kivvi {
 		File kivvi_bam  = "kivvi_out/~{output_prefix}.kivvi.kiv2.bam"
 		File kivvi_vcf  = "kivvi_out/~{output_prefix}.kivvi.kiv2.vcf"
 		File? kivvi_svg = "kivvi_out/~{output_prefix}.kivvi.kiv2.svg"
+		File d4z4_json = "kivvi_out/~{output_prefix}.kivvi.d4z4.json"
+		File d4z4_bam  = "kivvi_out/~{output_prefix}.kivvi.d4z4.bam"
+		File d4z4_vcf  = "kivvi_out/~{output_prefix}.kivvi.d4z4.vcf"
+		File? d4z4_svg = "kivvi_out/~{output_prefix}.kivvi.d4z4.svg"
 	}
 
 	runtime {
