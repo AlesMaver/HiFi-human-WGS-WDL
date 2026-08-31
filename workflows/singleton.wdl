@@ -432,6 +432,9 @@ workflow humanwgs_singleton {
     File mitorsaw_vcf       = upstream.mitorsaw_vcf
     File mitorsaw_vcf_index = upstream.mitorsaw_vcf_index
     File mitorsaw_hap_stats = upstream.mitorsaw_hap_stats
+    File mitorsaw_maf02_vcf       = upstream.mitorsaw_maf02_vcf
+    File mitorsaw_maf02_vcf_index = upstream.mitorsaw_maf02_vcf_index
+    File mitorsaw_maf02_hap_stats = upstream.mitorsaw_maf02_hap_stats
 
     # per sample mito_vep outputs
     File? mitorsaw_vep_vcf                    = mito_vep.output_vcf

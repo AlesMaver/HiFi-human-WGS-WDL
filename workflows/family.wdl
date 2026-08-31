@@ -392,6 +392,9 @@ workflow humanwgs_family {
     Array[File] mitorsaw_vcf       = upstream.mitorsaw_vcf
     Array[File] mitorsaw_vcf_index = upstream.mitorsaw_vcf_index
     Array[File] mitorsaw_hap_stats = upstream.mitorsaw_hap_stats
+    Array[File] mitorsaw_maf02_vcf       = upstream.mitorsaw_maf02_vcf
+    Array[File] mitorsaw_maf02_vcf_index = upstream.mitorsaw_maf02_vcf_index
+    Array[File] mitorsaw_maf02_hap_stats = upstream.mitorsaw_maf02_hap_stats
 
     # PGx outputs
     Array[File]  pbstarphase_json        = downstream.pbstarphase_json

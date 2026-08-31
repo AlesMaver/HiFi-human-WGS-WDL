@@ -253,6 +253,21 @@ workflow upstream {
       ref_fasta          = ref_map["fasta"],                  # !FileCoercion
       ref_index          = ref_map["fasta_index"],            # !FileCoercion
       out_prefix         = "~{sample_id}.~{ref_map['name']}",
+      disable_hp_filter  = true,
+      minimum_maf        = 0.10,
+      runtime_attributes = default_runtime_attributes
+  }
+
+  call Mitorsaw.mitorsaw as mitorsaw_maf02 {
+    input:
+      aligned_bam        = aligned_bam_data,
+      aligned_bam_index  = aligned_bam_index,
+      ref_fasta          = ref_map["fasta"],                  # !FileCoercion
+      ref_index          = ref_map["fasta_index"],            # !FileCoercion
+      out_prefix         = "~{sample_id}.~{ref_map['name']}",
+      output_suffix      = "_maf02",
+      disable_hp_filter  = true,
+      minimum_maf        = 0.02,
       runtime_attributes = default_runtime_attributes
   }
 
@@ -367,6 +382,9 @@ workflow upstream {
     File mitorsaw_vcf       = mitorsaw.vcf
     File mitorsaw_vcf_index = mitorsaw.vcf_index
     File mitorsaw_hap_stats = mitorsaw.hap_stats
+    File mitorsaw_maf02_vcf       = mitorsaw_maf02.vcf
+    File mitorsaw_maf02_vcf_index = mitorsaw_maf02.vcf_index
+    File mitorsaw_maf02_hap_stats = mitorsaw_maf02.hap_stats
 
     # qc messages
     Array[String] msg = flatten(

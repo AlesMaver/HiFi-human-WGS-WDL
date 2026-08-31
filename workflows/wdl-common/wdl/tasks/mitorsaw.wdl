@@ -45,6 +45,9 @@ task mitorsaw {
     File ref_index
 
     String out_prefix
+    String output_suffix = ""
+    Boolean disable_hp_filter = true
+    Float minimum_maf = 0.10
 
     RuntimeAttributes runtime_attributes
   }
@@ -53,20 +56,25 @@ task mitorsaw {
   Int mem_gb    = 32
   Int disk_size = ceil((size(aligned_bam, "GB") + size(ref_fasta, "GB")) * 2 + 20)
 
+  String vcf_name = "~{out_prefix}.mitorsaw~{output_suffix}.vcf.gz"
+  String hap_stats_name = "~{out_prefix}.mitorsaw~{output_suffix}.json"
+
   command <<<
     set -euo pipefail
 
     mitorsaw haplotype \
       --reference ~{ref_fasta} \
       --bam ~{aligned_bam} \
-      --output-vcf ~{out_prefix}.mitorsaw.vcf.gz \
-      --output-hap-stats ~{out_prefix}.mitorsaw.json
+      --minimum-maf ~{minimum_maf} \
+      ~{if disable_hp_filter then "--disable-hp-filter" else ""} \
+      --output-vcf ~{vcf_name} \
+      --output-hap-stats ~{hap_stats_name}
   >>>
 
   output {
-    File vcf = "~{out_prefix}.mitorsaw.vcf.gz"
-    File vcf_index = "~{out_prefix}.mitorsaw.vcf.gz.tbi"
-    File hap_stats = "~{out_prefix}.mitorsaw.json"
+    File vcf = vcf_name
+    File vcf_index = vcf_name + ".tbi"
+    File hap_stats = hap_stats_name
   }
 
   runtime {
