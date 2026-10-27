@@ -143,3 +143,21 @@ Tool versions and Docker images used in these workflows can be found in the [too
 ## DISCLAIMER
 
 TO THE GREATEST EXTENT PERMITTED BY APPLICABLE LAW, THIS WEBSITE AND ITS CONTENT, INCLUDING ALL SOFTWARE, SOFTWARE CODE, SITE-RELATED SERVICES, AND DATA, ARE PROVIDED "AS IS," WITH ALL FAULTS, WITH NO REPRESENTATIONS OR WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY WARRANTIES OF MERCHANTABILITY, SATISFACTORY QUALITY, NON-INFRINGEMENT OR FITNESS FOR A PARTICULAR PURPOSE. ALL WARRANTIES ARE REJECTED AND DISCLAIMED. YOU ASSUME TOTAL RESPONSIBILITY AND RISK FOR YOUR USE OF THE FOREGOING. PACBIO IS NOT OBLIGATED TO PROVIDE ANY SUPPORT FOR ANY OF THE FOREGOING, AND ANY SUPPORT PACBIO DOES PROVIDE IS SIMILARLY PROVIDED WITHOUT REPRESENTATION OR WARRANTY OF ANY KIND. NO ORAL OR WRITTEN INFORMATION OR ADVICE SHALL CREATE A REPRESENTATION OR WARRANTY OF ANY KIND. ANY REFERENCES TO SPECIFIC PRODUCTS OR SERVICES ON THE WEBSITES DO NOT CONSTITUTE OR IMPLY A RECOMMENDATION OR ENDORSEMENT BY PACBIO.
+
+### Optional SVTopo analysis
+
+Set `humanwgs_singleton.run_svtopo` (or `humanwgs_family.run_svtopo`) to
+`true` to run SVTopo after HiPhase. It uses the haplotagged BAM, phased SV
+VCF, and Sawfish supporting read names, then runs `svtopovz`. The
+`svtopo_archive` output contains the analysis and visualizations as
+`<sample_id>.svtopo.tar.gz`; family outputs are an array in sample order
+(with null entries when disabled). This step is disabled by default.
+
+Set `svtopo_exclude_regions` to a HiFiCNV exclusion BED for the reference
+assembly to avoid downloading it during execution. Otherwise, the task downloads
+the default BED for GRCh38/hg38 or GRCh37/hg19. Other assemblies require an
+explicit BED. `svtopo_docker_image` defaults to `alesmaver/svtopo`, matching
+CMGpipeline; set it to a tested tag, digest, or mirrored image for reproducible
+or private-registry runs. The image must provide `svtopo`, `svtopovz`, and
+`wget` (when downloading the BED). SVTopo requires haplotype tags; the task
+does not enable `--allow-unphased`.

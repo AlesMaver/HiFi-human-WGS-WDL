@@ -10,6 +10,8 @@ import "../wdl-common/wdl/tasks/methbat_v2.wdl" as Methbat
 import "../wdl-common/wdl/tasks/pbstarphase.wdl" as Pbstarphase
 import "../wdl-common/wdl/workflows/pharmcat/pharmcat.wdl" as Pharmcat
 
+import "../wdl-common/wdl/tasks/svtopo.wdl" as SVTopo
+
 workflow downstream {
   meta {
     description: "Phases small variants, SVs, and TRGTs, haplotags alignments, calls HLA and PGx alleles."
@@ -71,6 +73,11 @@ workflow downstream {
     File aligned_bam
     File aligned_bam_index
 
+    Boolean run_svtopo = false
+    File? svtopo_exclude_regions
+    File? sv_supporting_reads
+    String svtopo_docker_image = "alesmaver/svtopo"
+
     Int pharmcat_min_coverage
 
     File ref_map_file
@@ -107,6 +114,22 @@ workflow downstream {
   # hiphase.phased_vcfs[0] -> phased small variant VCF
   # hiphase.phased_vcfs[1] -> phased SV VCF
   # hiphase.phased_vcfs[2] -> phased TRGT VCF
+
+  if (run_svtopo) {
+    call SVTopo.svtopo {
+      input:
+        sample_id             = sample_id,
+        haplotagged_bam        = hiphase.haplotagged_bam,
+        haplotagged_bam_index  = hiphase.haplotagged_bam_index,
+        phased_sv_vcf         = hiphase.phased_vcfs[1],
+        phased_sv_vcf_index   = hiphase.phased_vcf_indices[1],
+        supporting_reads_json = sv_supporting_reads,
+        exclude_regions       = svtopo_exclude_regions,
+        assembly              = ref_map["name"],
+        docker_image          = svtopo_docker_image,
+        runtime_attributes    = default_runtime_attributes
+    }
+  }
 
   call Bamstats.bam_stats {
     input:
@@ -201,6 +224,8 @@ workflow downstream {
   }
 
   output {
+    File? svtopo_archive = svtopo.svtopo_archive
+
     # hiphase outputs
     File   merged_haplotagged_bam         = hiphase.haplotagged_bam
     File   merged_haplotagged_bam_index   = hiphase.haplotagged_bam_index

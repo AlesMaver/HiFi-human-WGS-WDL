@@ -74,6 +74,10 @@ workflow humanwgs_family {
     File? tertiary_map_file
 
     Int max_reads_per_alignment_chunk = 500000
+    Boolean run_svtopo = false
+    File? svtopo_exclude_regions
+    String svtopo_docker_image = "alesmaver/svtopo"
+
     Int pharmcat_min_coverage = 10
     Int? glnexus_mem_gb
 
@@ -183,6 +187,10 @@ workflow humanwgs_family {
         trgt_catalog               = process_trgt_catalog.full_catalog,
         aligned_bam                = upstream.out_bam[sample_index],
         aligned_bam_index          = upstream.out_bam_index[sample_index],
+        run_svtopo                 = run_svtopo,
+        svtopo_exclude_regions     = svtopo_exclude_regions,
+        svtopo_docker_image        = svtopo_docker_image,
+        sv_supporting_reads        = select_first([joint.sv_supporting_reads, upstream.sv_supporting_reads[0]]),
         pharmcat_min_coverage      = pharmcat_min_coverage,
         ref_map_file               = ref_map_file,
         default_runtime_attributes = default_runtime_attributes
@@ -337,6 +345,8 @@ workflow humanwgs_family {
     Array[String] stat_methbat_methylated_count   = downstream.stat_methbat_methylated_count
     Array[String] stat_methbat_unmethylated_count = downstream.stat_methbat_unmethylated_count
     Array[String] stat_methbat_asm_count          = downstream.stat_methbat_asm_count
+
+    Array[File?] svtopo_archive = downstream.svtopo_archive
 
     # sv outputs
     Array[File] phased_sv_vcf                 = downstream.phased_sv_vcf
