@@ -35,6 +35,8 @@ task svtopo {
     ln -s "~{phased_sv_vcf}" variants.vcf.gz
     ln -s "~{phased_sv_vcf_index}" variants.vcf.gz.tbi
 
+    mkdir "~{results_dir}"
+
     exclude_regions="~{exclude_regions}"
     if [[ -z "$exclude_regions" ]]; then
       case "~{assembly}" in
