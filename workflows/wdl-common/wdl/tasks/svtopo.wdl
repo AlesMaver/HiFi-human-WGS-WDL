@@ -47,6 +47,9 @@ task svtopo {
         "https://github.com/PacificBiosciences/HiFiCNV/raw/refs/heads/main/data/excluded_regions/cnv.excluded_regions.${assembly}.bed.gz"
     fi
 
+    # svtopo refuses to run if the output directory does not already exist.
+    mkdir -p "~{results_dir}"
+
     args=(
       --bam input.bam
       --vcf variants.vcf.gz
