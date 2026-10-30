@@ -96,7 +96,7 @@ workflow humanwgs_singleton {
     Int max_reads_per_alignment_chunk = 500000
     Boolean run_svtopo = false
     File? svtopo_exclude_regions
-    String svtopo_docker_image = "alesmaver/svtopo"
+    String svtopo_docker_image = "alesmaver/svtopo:0.3.1_mpl3.10"
 
     Int pharmcat_min_coverage = 10
 

@@ -76,7 +76,7 @@ workflow downstream {
     Boolean run_svtopo = false
     File? svtopo_exclude_regions
     File? sv_supporting_reads
-    String svtopo_docker_image = "alesmaver/svtopo"
+    String svtopo_docker_image = "alesmaver/svtopo:0.3.1_mpl3.10"
 
     Int pharmcat_min_coverage
 

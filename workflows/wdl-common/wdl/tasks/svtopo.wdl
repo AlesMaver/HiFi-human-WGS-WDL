@@ -16,7 +16,7 @@ task svtopo {
     File? supporting_reads_json
     File? exclude_regions
     String assembly = "GRCh38"
-    String docker_image = "alesmaver/svtopo"
+    String docker_image = "alesmaver/svtopo:0.3.1_mpl3.10"
     Int threads = 4
     RuntimeAttributes runtime_attributes
   }
@@ -63,7 +63,8 @@ task svtopo {
       args+=(--variant-readnames "~{supporting_reads_json}")
     fi
     svtopo "${args[@]}"
-    svtopovz --svtopo-dir "~{results_dir}"
+    svtopovz --svtopo-dir "~{results_dir}" \
+      || echo "svtopovz failed; archiving svtopo output without images" >&2
     tar -czf "~{archive_name}" "~{results_dir}"
   >>>
 

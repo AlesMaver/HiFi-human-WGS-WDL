@@ -156,8 +156,10 @@ VCF, and Sawfish supporting read names, then runs `svtopovz`. The
 Set `svtopo_exclude_regions` to a HiFiCNV exclusion BED for the reference
 assembly to avoid downloading it during execution. Otherwise, the task downloads
 the default BED for GRCh38/hg38 or GRCh37/hg19. Other assemblies require an
-explicit BED. `svtopo_docker_image` defaults to `alesmaver/svtopo`, matching
-CMGpipeline; set it to a tested tag, digest, or mirrored image for reproducible
-or private-registry runs. The image must provide `svtopo`, `svtopovz`, and
-`wget` (when downloading the BED). SVTopo requires haplotype tags; the task
+explicit BED. `svtopo_docker_image` defaults to
+`alesmaver/svtopo:0.3.1_mpl3.10`, which pins matplotlib below 3.11 (3.11 crashes
+`svtopovz` with a FreeType raster overflow); override it with a digest or
+mirrored image for private-registry runs. If `svtopovz` still fails, the task
+archives the svtopo JSON/BED without images. The image must provide `svtopo`,
+`svtopovz`, and `wget` (when downloading the BED). SVTopo requires haplotype tags; the task
 does not enable `--allow-unphased`.
