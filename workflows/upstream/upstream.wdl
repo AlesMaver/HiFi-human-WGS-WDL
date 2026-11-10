@@ -6,7 +6,7 @@ import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca3921
 import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/workflows/deepvariant/deepvariant.wdl" as DeepVariant
 import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/samtools.wdl" as Samtools
 import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/mosdepth.wdl" as Mosdepth
-import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/trgt.wdl" as Trgt
+import "trgt.wdl" as Trgt  # TRGT 5.1.0 (vendored); was wdl-common@19ca392 TRGT 4.0.0
 import "https://raw.githubusercontent.com/PacificBiosciences/wdl-common/19ca39213e8785855d1f7c57e57ef64525793144/wdl/tasks/paraphase.wdl" as Paraphase
 import "../wdl-common/wdl/tasks/mitorsaw.wdl" as Mitorsaw
 
